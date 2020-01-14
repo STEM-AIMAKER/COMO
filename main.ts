@@ -11,10 +11,53 @@ namespace como {
         basic.pause(100)
     }
 
+    function addParameter(i: number, len : number): string {
+        let str = "+";
+        if( i < 10 ) {
+            let k = 1;
+            for( k=1; k<len; k++ ){
+                str += "0";
+            }
+            str += i;
+        } else if( i < 100 ){
+            let k = 2;
+            for (k = 2; k < len; k++) {
+                str += "0";
+            }
+            str += i;
+        } else if( i <1000 && len ==4 ){
+            str += "0" + i;
+        }
+        return str;
+    }
     //% blockId=runGroup block="run action group |%index number of times %time interval(MS) %interval"
     export function runGroup(index: number, time: number, interval: number): void {
-        let cmd = "AT+" + index + ",TIME+" + time + ",INTERVAL+" + interval;
-        serial.writeString(cmd)
+        let cmd = "AT++servo+7" + addParameter(index, 2) + addParameter(time,3 ) + addParameter(interval, 4);
+        serial.writeString(cmd);
+    }
+
+    //% blockId=goForward block="Go Forward"
+    export function goForward(): void {
+        let cmd = "AT+servo+3";
+        serial.writeString(cmd);
+    }
+
+    //% blockId=goBack block="Go Back"
+    export function goBack(): void {
+        let cmd = "AT+servo+4";
+        serial.writeString(cmd);
+    }
+    
+    //% blockId=goLeft block="Go Left"
+    export function goLeft(): void {
+        let cmd = "AT+servo+5";
+        serial.writeString(cmd);
+    }
+
+    //% blockId=goRight block="Go Right"
+    export function goRight(): void {
+        let cmd = "AT+servo+6";
+        serial.writeString(cmd);
     }
 
 }
